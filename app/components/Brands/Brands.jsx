@@ -1,5 +1,5 @@
 import React from 'react';
-import { SiNike, SiAdidas, SiApple, SiSamsung, SiSony, SiCanon, SiGap, SiZara, SiForever21, SiHm } from "react-icons/si";
+import { SiNike, SiAdidas, SiApple, SiSamsung, SiSony, SiZara } from "react-icons/si";
 
 const Brands = () => {
     const brands = [
@@ -8,11 +8,7 @@ const Brands = () => {
         { name: 'Apple', icon: <SiApple /> },
         { name: 'Samsung', icon: <SiSamsung /> },
         { name: 'Sony', icon: <SiSony /> },
-        { name: 'Canon', icon: <SiCanon /> },
-        { name: 'Gap', icon: <SiGap /> },
         { name: 'Zara', icon: <SiZara /> },
-        { name: 'Forever 21', icon: <SiForever21 /> },
-        { name: 'H&M', icon: <SiHm /> },
     ];
 
     return (
