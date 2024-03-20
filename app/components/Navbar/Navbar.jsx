@@ -8,13 +8,13 @@ import Link from 'next/link'
 const Navbar = () => {
   return (
     <>
-      <div className='syne-font flex w-full items-center justify-between p-6'>       
+      <div className='syne-font flex w-full items-center justify-between p-4'>       
 
           <form class="max-w-md mx-auto w-1/3  justify-start flex items-center gap-2">
             <RiSearchLine className='text-2xl'/>
-            <input type="search" className='search_input' />
+            <input type="search" className='search_input !outline-none  border-none focus:ring-0' />
           </form>
-        <Logo className={'w-1/3 flex justify-center font-extrabold'}/>
+        <Logo className={'w-1/3 text-3xl flex justify-center font-extrabold'}/>
         <span className='flex justify-end w-1/3'>
           <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-10 h-10 rounded-full cursor-pointer" src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User dropdown" />
 

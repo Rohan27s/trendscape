@@ -5,10 +5,10 @@ import { FaInstagramSquare } from "react-icons/fa";
 import Link from 'next/link'
 const Footer = () => {
   return (
-    <div className='flex flex-col mt-16'>
-      <div className='flex flex-row px-[10%] py-4'>
+    <div className='flex flex-col mt-16 '>
+      <div className='flex flex-row  py-4 w-[90%] mx-auto'>
         <div id="about" className='w-1/4 gap-3 flex flex-col justify-center'>
-          <Logo className={'w-[200px]'}/>
+          <Logo className={'w-[200px] text-xl'}/>
           <p className=''>We sell quality products and our customer service are always active for you!</p>
           <span className='flex  flex-row gap-3 text-3xl'>
             <FaFacebook />

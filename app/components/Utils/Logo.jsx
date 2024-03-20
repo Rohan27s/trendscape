@@ -1,8 +1,10 @@
 import React from 'react'
 import { BRAND_NAME } from '@/app/Data/constants'
+import Link from 'next/link'
 const Logo = ({ className }) => {
   return (
-    <h1 className={className + " font-bold font-mono antialiased text-3xl tracking-wider syne-font"}>{BRAND_NAME}</h1>
+      <Link href="/" className={className + " select-none font-bold font-mono antialiased tracking-wider syne-font"}>{BRAND_NAME}
+    </Link>
   )
 }
 

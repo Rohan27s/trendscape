@@ -1,7 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import 'flowbite';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -10,11 +13,18 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // toast("Hello coders it was easy!");
   return (
     <html lang="en">
-      {/* <script src="../path/to/flowbite/dist/flowbite.min.js"></script> */}
+      {/* <ToastContainer /> */}
 
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Navbar />
+        <div className="w-[90%] mx-auto flex flex-col  relative">
+          {children}
+        </div>
+        <Footer />
+      </body>
     </html>
   );
 }

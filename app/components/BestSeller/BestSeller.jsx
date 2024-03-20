@@ -5,7 +5,7 @@ import Cards from './Cards';
 
 const BestSeller = () => {
     return (
-        <div className='my-4 max-h-[70vh]'>
+        <div className='my-3'>
             <div className='flex justify-between mb-3 items-center'>
                 <h2 className='text-4xl font-bold'>Best of the week</h2>
                 <Link href="#" className="view_more">
