@@ -4,6 +4,7 @@ import ProductCard from '../ProductCard/ProductCard'
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { PRODUCTS } from '@/app/Data/constants';
 
   
  
@@ -53,9 +54,9 @@ const ProductSlider = () => {
                 Trending Products
             </h2>
             <Slider {...settings} className=''>
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => (
+                {PRODUCTS?.slice(0, 10).map((product) => (
                     <>
-                        <ProductCard />
+                         <ProductCard key={product.id} {...product} />
                     </>
                 ))}
             </Slider>

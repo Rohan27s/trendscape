@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
 
       <body className={inter.className}>
         <Navbar />
-        <div className="w-[90%] mx-auto flex flex-col  relative">
+        <div className="mx-auto flex flex-col  relative min-h-[70vh]">
           {children}
         </div>
         <Footer />

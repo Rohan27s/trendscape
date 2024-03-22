@@ -81,3 +81,15 @@ input:focus, textarea:focus, select:focus{
     gap: 2px;
 
 }
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: black rgb(248, 248, 248);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}

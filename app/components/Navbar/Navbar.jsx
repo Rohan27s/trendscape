@@ -4,6 +4,7 @@ import Logo from '../Utils/Logo'
 import { RiSearchLine } from "react-icons/ri";
 import { CATEGORIES } from '@/app/Data/constants';
 import Link from 'next/link'
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 const Navbar = () => {
   return (
@@ -15,8 +16,10 @@ const Navbar = () => {
             <input type="search" className='search_input !outline-none  border-none focus:ring-0' />
           </form>
         <Logo className={'w-1/3 text-3xl flex justify-center font-extrabold'}/>
-        <span className='flex justify-end w-1/3'>
-          <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-10 h-10 rounded-full cursor-pointer" src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User dropdown" />
+        <span className='flex justify-end w-1/3 items-center gap-4 pr-4'>
+        <AiOutlineShoppingCart className='text-3xl'/>
+
+          {/* <img id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start" className="w-10 h-10 rounded-full cursor-pointer" src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User dropdown" /> */}
 
           {/* <span id="userDropdown" className="z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
           <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
