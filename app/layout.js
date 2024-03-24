@@ -19,6 +19,8 @@ export default function RootLayout({ children }) {
       {/* <ToastContainer /> */}
 
       <body className={inter.className}>
+        <ToastContainer />
+
         <Navbar />
         <div className="mx-auto flex flex-col  relative min-h-[70vh]">
           {children}

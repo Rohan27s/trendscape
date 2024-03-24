@@ -93,3 +93,17 @@ input:focus, textarea:focus, select:focus{
     width: 8px;
     height: 8px;
 }
+@keyframes slideIn {
+    from {
+        transform: translateY(-80%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slideIn {
+    animation: slideIn 0.3s ease forwards;
+}
