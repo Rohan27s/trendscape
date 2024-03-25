@@ -6,20 +6,28 @@
 html {
     scroll-behavior: smooth;
 }
-input:focus, textarea:focus, select:focus{
+
+input:focus,
+textarea:focus,
+select:focus {
     outline: none;
 }
 
 .select-none {
     user-select: none;
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-  }
-  input[type="search"]::-webkit-search-cancel-button {
-   
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+
     background: #000;
-  }
+}
+
 .syne-font {
     font-family: "Syne", sans-serif;
 }
@@ -93,11 +101,13 @@ input:focus, textarea:focus, select:focus{
     width: 8px;
     height: 8px;
 }
+
 @keyframes slideIn {
     from {
         transform: translateY(-80%);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -106,4 +116,51 @@ input:focus, textarea:focus, select:focus{
 
 .animate-slideIn {
     animation: slideIn 0.3s ease forwards;
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow-anchor: none;
+
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    display: flex;
+    flex-direction: flex-end;
+    align-items: center;
+    z-index: 99;
+}
+
+.cart {
+    background-color: white;
+    height: 100vh;
+    position: relative;
+    margin-left: auto;
+    width: 433px;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.cart-items {
+    overflow-y: scroll;
+    max-height: 70%;
+    padding: 20px;
+
+}
+
+.cart-items::-webkit-scrollbar {
+    display: none;
+}
+.cart-bottombar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
 }

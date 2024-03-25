@@ -42,9 +42,8 @@ const CustomerReview = () => {
             setNewName('');
             setNewReview('');
             setSelectedRating(0);
-            setShowReviewForm(false); // Hide review input after submission
-            setSubmittedReview(true); // Set submitted review flag
-            // Show toast notification at top center
+            setShowReviewForm(false); 
+            setSubmittedReview(true); 
             toast.success("Thank you for your review!");
         }
     };
@@ -72,10 +71,10 @@ const CustomerReview = () => {
     return (
         <div className="mt-16">
             <h3 className="text-2xl font-bold mb-4 text-center">Customer Reviews</h3>
-            { !submittedReview && (
+            {!submittedReview && (
                 <p className="text-center mb-4">Your feedback matters! Share your experience with us by leaving a review.</p>
             )}
-            { submittedReview && (
+            {submittedReview && (
                 <p className="text-center mb-4">Thank you for sharing your experience with us!</p>
             )}
 
