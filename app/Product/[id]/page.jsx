@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import ColorOptions from '@/app/components/ColorOptions/ColorOptions';
 import CustomerReview from '@/app/components/CustomerReview/CustomerReview';
+import QuantitySelector from '@/app/components/Utils/QuantitySelector';
 
 const ImageSlider = () => {
   const settings = {
@@ -82,6 +83,10 @@ const ProductDetailsPage = () => {
           </div>
           {/* Color Options */}
           <div className="mb-4">
+            <span className=' flex mb-4'>
+
+              <QuantitySelector />
+            </span>
             <label className="block text-gray-700 text-sm font-bold " htmlFor="color">
               Color
             </label>
@@ -121,7 +126,7 @@ const ProductDetailsPage = () => {
         </div>
       </div>
       <section className='flex flex-col justify-center w-[90%] mx-auto'>
-        <CustomerReview/>
+        <CustomerReview />
       </section>
     </div>
   );

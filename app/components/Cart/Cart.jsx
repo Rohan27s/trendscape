@@ -12,7 +12,7 @@ const Cart = ({ onClose }) => {
         // Stop propagation to prevent the click event from reaching the overlay
         event.stopPropagation();
     };
-    const [total, setTotal] = useState(3784)
+    const [total, setTotal] = useState(2000)
 
     // Sample data for product recommendations
     const recommendedProducts = [
@@ -78,12 +78,12 @@ const Cart = ({ onClose }) => {
                         ))}
                     </ul>
                 </div>
-                {/* <div className="cart_recom m-auto flex h-[70%] flex-col justify-center w-full">
+                {/* <div className="cart_recom m-auto flex h-[20%] flex-col justify-center w-full">
                     <h3 className="text-lg font-semibold mb-2 text-center">People also loved</h3>
                     <Slider {...settings} className=''>
                         {recommendedProducts.map((product) => (
                             <div key={product.id} className='!flex justify-center flex-col w-full mx-auto' >
-                                <span className='w-[70%] h-[80%] flex justify-center mx-auto'>
+                                <span className='w-[30%]  flex justify-center mx-auto'>
                                 <img src={product.image} className='w-full h-full object-contain' alt={product.name} />
 
                                 </span>

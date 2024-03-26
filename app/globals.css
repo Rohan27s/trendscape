@@ -140,6 +140,8 @@ input[type="search"]::-webkit-search-cancel-button {
     background-color: white;
     height: 100vh;
     position: relative;
+    display: flex;
+    flex-direction: column;
     margin-left: auto;
     width: 433px;
     border-radius: 5px 0 0 5px;
@@ -149,7 +151,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .cart-items {
     overflow-y: scroll;
-    max-height: 70%;
+    max-height: 60%;
     padding: 20px;
 
 }
@@ -164,3 +166,6 @@ input[type="search"]::-webkit-search-cancel-button {
     position: absolute;
     bottom: 0;
 }
+/* .circle{
+    z-index: 100;
+} */
