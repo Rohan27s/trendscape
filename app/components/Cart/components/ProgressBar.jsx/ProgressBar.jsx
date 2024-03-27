@@ -15,9 +15,11 @@ const ProgressBar = ({ totalAmount }) => {
 
   // Calculate remaining amount to reach the next threshold
   let remaining = 0;
+  let nextThreshold = '';
   for (let i = 1; i < thresholds.length; i++) {
     if (totalAmount < thresholds[i].amount) {
       remaining = thresholds[i].amount - totalAmount;
+      nextThreshold = thresholds[i].label; // Set next threshold label
       break;
     }
   }
@@ -49,7 +51,7 @@ const ProgressBar = ({ totalAmount }) => {
             <span className="font-bold text-lg">
               {`Rs. ${remaining.toFixed(2)}`}
             </span>
-            <span className="ml-1">more to reach the next threshold</span>
+            <span className="ml-1">more to reach {nextThreshold}</span> {/* Display next threshold label */}
           </div>
 
         )}

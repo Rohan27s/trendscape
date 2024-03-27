@@ -1,9 +1,9 @@
 import React from 'react';
 import StarRating from '../Utils/StarRating';
 import Link from 'next/link'
-const ProductCard = ({ name, brand, price, rating }) => {
+const ProductCard = ({ name, brand, price, rating,id }) => {
     return (
-        <Link href="/Product/1">
+        <Link href={`/Product/${name.replace(/\s+/g, '-').toLowerCase()}?id=${id}`}>
             <div className='w-[250px] h-[400px] cursor-pointer'>
                 {/* Product Image */}
                 <div className='bg-gray-300 rounded-2xl h-[250px] w-[250px]'>
