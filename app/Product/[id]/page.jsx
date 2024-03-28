@@ -6,10 +6,12 @@ import 'slick-carousel/slick/slick-theme.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import ColorOptions from '@/app/components/ColorOptions/ColorOptions';
 import CustomerReview from '@/app/components/CustomerReview/CustomerReview';
-import QuantitySelector from '@/app/components/Utils/QuantitySelector';
+import QuantitySelector from '@/app/components/Utils/CartQuantitySelector';
 import { useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct, selectProduct } from '@/app/Redux/reducers/productSlice';
+import { addToCart } from '@/app/Redux/reducers/cartReducer';
+import ProductDetailsQuantitySelector from '@/app/components/Utils/ProductDetailsQuantitySelector';
 
 const ImageSlider = () => {
   const settings = {
@@ -37,7 +39,8 @@ const ProductDetailsPage = () => {
   const [expanded, setExpanded] = useState(false);
   const searchParams = useSearchParams();
   const productId = searchParams.get('id');
-  console.log("ID",productId);
+  const [quantity, setQuantity] = useState(1);
+  // console.log("ID", productId);
   useEffect(() => {
     dispatch(fetchProduct(productId));
   }, [dispatch, productId]);
@@ -55,8 +58,11 @@ const ProductDetailsPage = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
-console.log(product);
-  console.log("Product is not null, rendering product details");
+  const handleAddToCart = () => {
+    dispatch(addToCart({ product, quantity })); // Dispatch addToCart action with product and quantity
+  };
+  // console.log(product);
+  // console.log("Product is not null, rendering product details");
 
   return (
     <div className="container mx-auto mt-10">
@@ -75,12 +81,12 @@ console.log(product);
           {/* Color Options */}
           <div className="mb-4">
             <span className=' flex mb-4'>
-              <QuantitySelector />
+            <ProductDetailsQuantitySelector onQuantityChange={setQuantity} />
             </span>
             <label className="block text-gray-700 text-sm font-bold " htmlFor="color">
               Color
             </label>
-            <ColorOptions />
+            <ColorOptions colors={product.colors} />
           </div>
 
           {/* Size Options */}
@@ -97,7 +103,7 @@ console.log(product);
           </div>
 
           {/* Add to Cart Button */}
-          <button className="bg-black  flex rounded-xl flex-row items-center gap-4 hover:bg-gray-700 text-white font-bold py-2 px-12 ">
+          <button onClick={handleAddToCart} className="bg-black  flex rounded-xl flex-row items-center gap-4 hover:bg-gray-700 text-white font-bold py-2 px-12 ">
             <AiOutlineShoppingCart className='text-3xl' />
             Add to Cart
           </button>

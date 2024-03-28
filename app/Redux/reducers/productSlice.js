@@ -31,8 +31,8 @@ export const selectProduct = (state) => state.product.product;
 export const fetchProduct = (productId) => async (dispatch) => {
     try {
         const product = PRODUCTS?.find((product) => product.id === productId);
-        console.log("products", PRODUCTS);
-        console.log("single product", product);
+        // console.log("products", PRODUCTS);
+        // console.log("single product", product);
         dispatch(fetchProductSuccess(product));
     } catch (error) {
         dispatch(fetchProductFailure(error.message));
