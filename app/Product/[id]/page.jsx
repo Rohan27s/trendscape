@@ -12,26 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct, selectProduct } from '@/app/Redux/reducers/productSlice';
 import { addToCart } from '@/app/Redux/reducers/cartReducer';
 import ProductDetailsQuantitySelector from '@/app/components/Utils/ProductDetailsQuantitySelector';
-
-const ImageSlider = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
-  return (
-    <Slider {...settings} className='w-[80%] mx-auto'>
-      {[1, 2, 3, 4, 5, 6].map((index) => (
-        <div key={index} className='h-[75vh]'>
-          <img src={`https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt="Product" className="w-full h-full object-cover rounded-lg" />
-        </div>
-      ))}
-    </Slider>
-  );
-};
+import ImageSlider from '@/app/components/Utils/ImageSlider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetailsPage = () => {
   const dispatch = useDispatch();
@@ -59,13 +42,22 @@ const ProductDetailsPage = () => {
     return <div>Loading...</div>;
   }
   const handleAddToCart = () => {
-    dispatch(addToCart({ product, quantity })); // Dispatch addToCart action with product and quantity
-  };
+    dispatch(addToCart({ product, quantity })); 
+    toast.success(`${product.name} added to cart`, {
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }
   // console.log(product);
   // console.log("Product is not null, rendering product details");
 
   return (
-    <div className="container mx-auto mt-10">
+    <div className="container mx-auto mt-10  ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image Slider */}
         <div className="md:col-span-1 relative">
@@ -73,16 +65,18 @@ const ProductDetailsPage = () => {
         </div>
 
         {/* Product Details */}
-        <div className="md:col-span-1 w-[80%] mr-auto">
-          <div className='flex flex-col mb-8'>
+        <div className="md:col-span-1 w-[70%] mr-auto flex flex-col gap-4">
+          <div className='flex flex-col'>
             <h2 className="text-3xl font-semibold ">{product?.name}</h2>
             <p className='text-xl font-light'>{product?.brand}</p>
           </div>
-          {/* Color Options */}
-          <div className="mb-4">
-            <span className=' flex mb-4'>
-            <ProductDetailsQuantitySelector onQuantityChange={setQuantity} />
+          <p className='text-2xl font-semibold'>Rs.{product?.price}</p> 
+
+            <span className='flex'>
+              <ProductDetailsQuantitySelector onQuantityChange={setQuantity} />
             </span>
+          {/* Color Options */}
+          <div className="flex flex-col mt-4">
             <label className="block text-gray-700 text-sm font-bold " htmlFor="color">
               Color
             </label>
@@ -90,8 +84,8 @@ const ProductDetailsPage = () => {
           </div>
 
           {/* Size Options */}
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="size">
+          <div className="flex flex-col mt-6">
+            <label className="block text-gray-700 text-sm font-bold mt-4" htmlFor="size">
               Size
             </label>
             <select id="size" className="w-full border border-gray-300 rounded px-3 py-2">
@@ -103,7 +97,8 @@ const ProductDetailsPage = () => {
           </div>
 
           {/* Add to Cart Button */}
-          <button onClick={handleAddToCart} className="bg-black  flex rounded-xl flex-row items-center gap-4 hover:bg-gray-700 text-white font-bold py-2 px-12 ">
+
+          <button onClick={handleAddToCart} className="bg-black justify-center flex rounded-xl flex-row items-center gap-4 hover:bg-gray-700 text-white font-bold py-2 px-12 ">
             <AiOutlineShoppingCart className='text-3xl' />
             Add to Cart
           </button>

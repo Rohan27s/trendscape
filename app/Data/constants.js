@@ -19,7 +19,7 @@ export const PRODUCTS = [
   { 
     id: "1", 
     name: 'Blue Striped T-Shirt', 
-    price: 25, 
+    price: 250, 
     brand: 'Adidas', 
     rating: 4.5, 
     description: 'This blue striped t-shirt is perfect for casual wear. Made from soft cotton material, it offers comfort and style.',
@@ -34,7 +34,7 @@ export const PRODUCTS = [
   { 
     id: "2", 
     name: 'Black Leather Shoes', 
-    price: 50, 
+    price: 500, 
     brand: 'Nike', 
     rating: 4.2, 
     description: 'Step up your shoe game with these sleek black leather shoes from Nike. Perfect for both formal and casual occasions.',
@@ -47,7 +47,7 @@ export const PRODUCTS = [
   { 
     id: "3", 
     name: 'Canvas Backpack', 
-    price: 35, 
+    price: 350, 
     brand: 'Puma', 
     rating: 4.7, 
     description: 'Carry your essentials in style with this durable canvas backpack from Puma. It features multiple compartments for organization.',
@@ -62,7 +62,7 @@ export const PRODUCTS = [
   { 
     id: "4", 
     name: 'Graphic Print Sweatshirt', 
-    price: 30, 
+    price: 300, 
     brand: 'Adidas', 
     rating: 4.8, 
     description: `Stay cozy and stylish with this graphic print sweatshirt from Adidas. Made from high-quality fabric, it's perfect for chilly days.`,
@@ -76,7 +76,7 @@ export const PRODUCTS = [
   { 
     id: "5", 
     name: 'White Sneakers', 
-    price: 40, 
+    price: 400, 
     brand: 'Nike', 
     rating: 4.3, 
     description: 'Complete your casual look with these stylish white sneakers from Nike. They offer comfort and versatility for everyday wear.',
@@ -89,7 +89,7 @@ export const PRODUCTS = [
   { 
     id: "6", 
     name: 'Denim Shoulder Bag', 
-    price: 45, 
+    price: 450, 
     brand: 'Puma', 
     rating: 4.6, 
     description: `Add a touch of casual chic to your outfit with this denim shoulder bag from Puma. It's spacious and trendy, perfect for everyday use.`,
@@ -102,7 +102,7 @@ export const PRODUCTS = [
   { 
     id: "7", 
     name: 'Red Plaid Shirt', 
-    price: 35, 
+    price: 350, 
     brand: 'Levi\'s', 
     rating: 4.4, 
     description: 'Get the classic lumberjack look with this red plaid shirt from Levi\'s. Made from soft flannel material, it offers both style and comfort.',

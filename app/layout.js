@@ -18,9 +18,9 @@ export default function RootLayout({ children }) {
 
   const openCart = () => {
     setIsCartOpen(true);
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
   };
-  
+
   const closeCart = () => {
     document.body.style.overflow = '';
     setIsCartOpen(false);
@@ -30,8 +30,21 @@ export default function RootLayout({ children }) {
     <Provider store={store}>
       <html lang="en">
         <body className={inter.className}>
-          <ToastContainer />
-  
+        <ToastContainer
+        position="top-center"
+        autoClose={3000} // Close the notification after 3 seconds
+        hideProgressBar={false} // Show the progress bar
+        newestOnTop={false} // Place newest notifications on top
+        closeOnClick // Close the notification when clicked
+        rtl={false} // Left-to-right layout
+        pauseOnFocusLoss // Pause the notification when focus is lost on the window
+        draggable // Allow dragging to dismiss the notification
+        pauseOnHover 
+        bodyStyle={{ 
+          padding: '8px',
+        }}
+      />
+
           <Navbar openCart={openCart} />
           {isCartOpen && <Cart onClose={closeCart} />}
           <div className="mx-auto flex flex-col  relative min-h-[70vh]">
