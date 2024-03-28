@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer/Footer";
 import Cart from "./components/Cart/Cart";
 import store from './Redux/store';
 import { Provider } from 'react-redux';
+import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,7 +45,7 @@ export default function RootLayout({ children }) {
           padding: '8px',
         }}
       />
-
+          <AnnouncementBar/>
           <Navbar openCart={openCart} />
           {isCartOpen && <Cart onClose={closeCart} />}
           <div className="mx-auto flex flex-col  relative min-h-[70vh]">

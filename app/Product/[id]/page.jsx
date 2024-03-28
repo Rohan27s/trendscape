@@ -15,6 +15,7 @@ import ProductDetailsQuantitySelector from '@/app/components/Utils/ProductDetail
 import ImageSlider from '@/app/components/Utils/ImageSlider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from '@/app/components/Utils/Loading';
 
 const ProductDetailsPage = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,9 @@ const ProductDetailsPage = () => {
   };
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>
+      <Loading/>
+    </div>;
   }
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity })); 
@@ -80,7 +83,7 @@ const ProductDetailsPage = () => {
             <label className="block text-gray-700 text-sm font-bold " htmlFor="color">
               Color
             </label>
-            <ColorOptions colors={product.colors} />
+            <ColorOptions colors={product?.colors} />
           </div>
 
           {/* Size Options */}
