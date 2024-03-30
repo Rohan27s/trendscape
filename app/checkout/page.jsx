@@ -11,10 +11,10 @@ const CheckoutPage = () => {
     const [selectedShipping, setSelectedShipping] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
     const cartItems = useSelector((state) => state.cart.items);
-    const subtotal = 1000; // Example subtotal amount
+    const subtotal = useSelector((state) => state.cart.total);
     const discount = 100; // Example discount amount
     const orderTotal = subtotal - discount; // Example order total amount
-
+    console.log(cartItems);
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
@@ -79,16 +79,17 @@ const CheckoutPage = () => {
                 <h3 className='text-2xl mb-2'>Order Overview</h3>
                 <div className='w-full flex products-custom-scroll'>
                     <ul className='flex flex-row w-full overflow-x-auto gap-4' style={{ scrollbarWidth: 'thin', scrollbarColor: 'gray', scrollbarTrackColor: 'transparent' }}>
-                        {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
-                            <li key={index} className="flex flex-col items-center justify-between mb-2">
-                                <span className="w-[150px] h-[150px] flex">
-                                    <img src={`https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt="" className="w-full h-full object-cover rounded-xl" />
+                        {cartItems?.map((item) => (
+                            <li key={item.id} className="w-[150px] flex flex-col items-center justify-between mb-2">
+                                <span className="w-[150px] h-[150px] mb-[2px] flex">
+                                    <img src={`https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt={item.name} className="w-full h-full object-cover rounded-xl" />
                                 </span>
-                                <span className="text-start w-full">
-                                    <p>Tshirt</p>
+                                <span className="text-start mx-auto w-[98%] overflow-hidden">
+                                    <p className="whitespace-nowrap overflow-hidden overflow-ellipsis">{item.name}</p>
                                 </span>
+
                                 <span className="text-start w-full flex ">
-                                    <p>Rs.200 X 2</p>
+                                    <p>Rs.{item.price} X {item.quantity}</p>
                                 </span>
                             </li>
                         ))}
@@ -114,36 +115,34 @@ const CheckoutPage = () => {
 
                 {/* Payment Method Selection */}
                 <div className="mb-3 w-full">
-            <h2 className="text-lg font-semibold mb-3">Payment Method</h2>
-            {/* Option 1: Cash on Delivery (COD) */}
-            <div
-                className={`border border-gray-400  p-3 rounded-t-xl cursor-pointer ${
-                    selectedPayment === 'cod' ? 'bg-black text-white' : 'bg-white text-black'
-                }`}
-                onClick={() => setSelectedPayment('cod')}
-            >
-                <label className="inline-flex items-center">
-                    {/* Hidden radio button */}
-                    <input type="radio" className="form-radio sr-only" name="payment" value="cod" checked={selectedPayment === 'cod'} onChange={() => {}} />
-                    {/* Icon and text */}
-                    <span className="ml-2 flex items-center "><FaMoneyBillAlt className="mr-2 text-2xl" /> Cash on Delivery (COD)</span>
-                </label>
-            </div>
-            {/* Option 2: Online Payment */}
-            <div
-                className={`border border-gray-400 p-3 rounded-b-xl cursor-pointer ${
-                    selectedPayment === 'online' ? 'bg-black text-white' : 'bg-white text-black'
-                }`}
-                onClick={() => setSelectedPayment('online')}
-            >
-                <label className="inline-flex items-center">
-                    {/* Hidden radio button */}
-                    <input type="radio" className="form-radio sr-only" name="payment" value="online" checked={selectedPayment === 'online'} onChange={() => {}} />
-                    {/* Icon and text */}
-                    <span className="ml-2 flex items-center"><MdPayment className="mr-2 text-2xl" /> Online Payment</span>
-                </label>
-            </div>
-        </div>
+                    <h2 className="text-lg font-semibold mb-3">Payment Method</h2>
+                    {/* Option 1: Cash on Delivery (COD) */}
+                    <div
+                        className={`border border-gray-400  p-3 rounded-t-xl cursor-pointer ${selectedPayment === 'cod' ? 'bg-black text-white' : 'bg-white text-black'
+                            }`}
+                        onClick={() => setSelectedPayment('cod')}
+                    >
+                        <label className="inline-flex items-center">
+                            {/* Hidden radio button */}
+                            <input type="radio" className="form-radio sr-only" name="payment" value="cod" checked={selectedPayment === 'cod'} onChange={() => { }} />
+                            {/* Icon and text */}
+                            <span className="ml-2 flex items-center "><FaMoneyBillAlt className="mr-2 text-2xl" /> Cash on Delivery (COD)</span>
+                        </label>
+                    </div>
+                    {/* Option 2: Online Payment */}
+                    <div
+                        className={`border border-gray-400 p-3 rounded-b-xl cursor-pointer ${selectedPayment === 'online' ? 'bg-black text-white' : 'bg-white text-black'
+                            }`}
+                        onClick={() => setSelectedPayment('online')}
+                    >
+                        <label className="inline-flex items-center">
+                            {/* Hidden radio button */}
+                            <input type="radio" className="form-radio sr-only" name="payment" value="online" checked={selectedPayment === 'online'} onChange={() => { }} />
+                            {/* Icon and text */}
+                            <span className="ml-2 flex items-center"><MdPayment className="mr-2 text-2xl" /> Online Payment</span>
+                        </label>
+                    </div>
+                </div>
                 {/* Complete Your Order Button */}
                 <div className='flex w-full'>
                     <button className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">Complete Your Order</button>

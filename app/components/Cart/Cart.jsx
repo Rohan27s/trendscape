@@ -8,7 +8,7 @@ import QuantitySelector from '../Utils/CartQuantitySelector';
 import { MdDelete } from 'react-icons/md';
 import ProgressBar from './components/ProgressBar.jsx/ProgressBar'; // Import ProgressBar
 import CartQuantitySelector from '../Utils/CartQuantitySelector';
-
+import Link from 'next/link'
 const Cart = ({ onClose }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
@@ -74,9 +74,9 @@ const Cart = ({ onClose }) => {
             />
             <button className="w-1/2 h-full bg-black text-white px-4 py-1 rounded-md">Apply</button>
           </div>
-          <button className="w-full py-2 text-lg flex justify-center items-center bg-black text-white">
+          <Link href="/checkout" onClick={onClose} className="w-full rounded-xl py-2 text-lg flex justify-center items-center bg-black text-white">
             Checkout - Rs.{total}
-          </button>
+          </Link>
         </div>}
       </div>
     </div>
