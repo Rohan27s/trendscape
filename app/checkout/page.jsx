@@ -1,9 +1,12 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaShippingFast, FaMoneyBillAlt, FaPlaneDeparture } from 'react-icons/fa';
+
 
 const CheckoutPage = () => {
     // Static data for order total, subtotal, and discount
+    const [selectedShipping, setSelectedShipping] = useState(null);
     const cartItems = useSelector((state) => state.cart.items);
 
     const subtotal = 1000; // Example subtotal amount
@@ -13,7 +16,7 @@ const CheckoutPage = () => {
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
-            <div className="w-[60%] p-5 flex flex-col">
+            <div className="w-1/2 p-5 flex flex-col">
                 {/* Form for shipping address */}
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-3">Shipping Address</h2>
@@ -44,16 +47,28 @@ const CheckoutPage = () => {
                 {/* Shipping methods */}
                 <div>
                     <h2 className="text-lg font-semibold mb-3">Shipping Method</h2>
-                    <label className="inline-flex items-center">
-                        <input type="radio" className="form-radio text-gray-600" name="shipping" value="normal" />
-                        <span className="ml-2">Normal Shipping (5-7 days)</span>
-                    </label>
-                    <br />
-                    <label className="inline-flex items-center">
-                        <input type="radio" className="form-radio text-gray-600" name="shipping" value="express" />
-                        <span className="ml-2">Express Shipping (1-2 days)</span>
-                    </label>
+                    {/* Option 1: Normal Shipping */}
+                    <div
+                        className={`border border-gray-400 p-3 mb-3 cursor-pointer ${selectedShipping === 'normal' ? 'bg-black text-white' : 'bg-white text-gray-600'
+                            }`}
+                        onClick={() => setSelectedShipping('normal')}
+                    >
+                        <span className="flex items-center gap-2">
+                            <FaShippingFast /> Normal Shipping (5-7 days)
+                        </span>
+                    </div>
+                    {/* Option 2: Express Shipping */}
+                    <div
+                        className={`border border-gray-400 p-3 cursor-pointer ${selectedShipping === 'express' ? 'bg-black text-white' : 'bg-white text-gray-600'
+                            }`}
+                        onClick={() => setSelectedShipping('express')}
+                    >
+                        <span className="flex items-center gap-2">
+                            <FaPlaneDeparture /> Express Shipping (1-2 days)
+                        </span>
+                    </div>
                 </div>
+
             </div>
 
             {/* Right Side */}
@@ -78,8 +93,7 @@ const CheckoutPage = () => {
                     </ul>
                 </div>
 
-                {/* Order Total */}
-                <div className="mb-6 w-full">
+                <div className="mb-6 mt-2 w-full">
                     <h2 className="text-lg font-semibold mb-3">Payment Details</h2>
                     <div className="flex justify-between">
                         <p className="">Subtotal:</p>
@@ -96,20 +110,21 @@ const CheckoutPage = () => {
                     </div>
                 </div>
 
+                {/* Payment Method Selection */}
                 <div className='mb-3 w-full'>
                     <h2 className="text-lg font-semibold mb-3">Payment Method</h2>
                     <label className="inline-flex items-center">
                         <input type="radio" className="form-radio " name="payment" value="cod" />
-                        <span className="ml-2">Cash on Delivery (COD)</span>
+                        <span className="ml-2"><FaMoneyBillAlt /> Cash on Delivery (COD)</span> {/* Using FaMoneyBillAlt icon */}
                     </label>
                     <br />
                     <label className="inline-flex items-center">
                         <input type="radio" className="form-radio" name="payment" value="online" />
-                        <span className="ml-2">Online Payment</span>
+                        <span className="ml-2"><FaMoneyBillAlt /> Online Payment</span> {/* Using FaMoneyBillAlt icon */}
                     </label>
                 </div>
 
-                {/* Payment Mode Selection */}
+                {/* Complete Your Order Button */}
                 <div className='flex w-full'>
                     <button className="bg-white w-full font-semibold text-black py-2 px-4 rounded-3xl hover:bg-gray-200">Complete Your Order</button>
                 </div>
