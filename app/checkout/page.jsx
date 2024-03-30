@@ -2,13 +2,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaShippingFast, FaMoneyBillAlt, FaPlaneDeparture } from 'react-icons/fa';
+import { MdPayment } from "react-icons/md";
+
 
 
 const CheckoutPage = () => {
     // Static data for order total, subtotal, and discount
     const [selectedShipping, setSelectedShipping] = useState(null);
+    const [selectedPayment, setSelectedPayment] = useState(null);
     const cartItems = useSelector((state) => state.cart.items);
-
     const subtotal = 1000; // Example subtotal amount
     const discount = 100; // Example discount amount
     const orderTotal = subtotal - discount; // Example order total amount
@@ -49,7 +51,7 @@ const CheckoutPage = () => {
                     <h2 className="text-lg font-semibold mb-3">Shipping Method</h2>
                     {/* Option 1: Normal Shipping */}
                     <div
-                        className={`border border-gray-400 p-3 mb-3 cursor-pointer ${selectedShipping === 'normal' ? 'bg-black text-white' : 'bg-white text-gray-600'
+                        className={`border border-gray-400 p-3 mb-3 rounded-xl cursor-pointer ${selectedShipping === 'normal' ? 'bg-black text-white' : 'bg-white text-gray-600'
                             }`}
                         onClick={() => setSelectedShipping('normal')}
                     >
@@ -59,7 +61,7 @@ const CheckoutPage = () => {
                     </div>
                     {/* Option 2: Express Shipping */}
                     <div
-                        className={`border border-gray-400 p-3 cursor-pointer ${selectedShipping === 'express' ? 'bg-black text-white' : 'bg-white text-gray-600'
+                        className={`border border-gray-400 p-3 rounded-xl cursor-pointer ${selectedShipping === 'express' ? 'bg-black text-white' : 'bg-white text-gray-600'
                             }`}
                         onClick={() => setSelectedShipping('express')}
                     >
@@ -111,22 +113,40 @@ const CheckoutPage = () => {
                 </div>
 
                 {/* Payment Method Selection */}
-                <div className='mb-3 w-full'>
-                    <h2 className="text-lg font-semibold mb-3">Payment Method</h2>
-                    <label className="inline-flex items-center">
-                        <input type="radio" className="form-radio " name="payment" value="cod" />
-                        <span className="ml-2"><FaMoneyBillAlt /> Cash on Delivery (COD)</span> {/* Using FaMoneyBillAlt icon */}
-                    </label>
-                    <br />
-                    <label className="inline-flex items-center">
-                        <input type="radio" className="form-radio" name="payment" value="online" />
-                        <span className="ml-2"><FaMoneyBillAlt /> Online Payment</span> {/* Using FaMoneyBillAlt icon */}
-                    </label>
-                </div>
-
+                <div className="mb-3 w-full">
+            <h2 className="text-lg font-semibold mb-3">Payment Method</h2>
+            {/* Option 1: Cash on Delivery (COD) */}
+            <div
+                className={`border border-gray-400  p-3 rounded-t-xl cursor-pointer ${
+                    selectedPayment === 'cod' ? 'bg-black text-white' : 'bg-white text-black'
+                }`}
+                onClick={() => setSelectedPayment('cod')}
+            >
+                <label className="inline-flex items-center">
+                    {/* Hidden radio button */}
+                    <input type="radio" className="form-radio sr-only" name="payment" value="cod" checked={selectedPayment === 'cod'} onChange={() => {}} />
+                    {/* Icon and text */}
+                    <span className="ml-2 flex items-center "><FaMoneyBillAlt className="mr-2 text-2xl" /> Cash on Delivery (COD)</span>
+                </label>
+            </div>
+            {/* Option 2: Online Payment */}
+            <div
+                className={`border border-gray-400 p-3 rounded-b-xl cursor-pointer ${
+                    selectedPayment === 'online' ? 'bg-black text-white' : 'bg-white text-black'
+                }`}
+                onClick={() => setSelectedPayment('online')}
+            >
+                <label className="inline-flex items-center">
+                    {/* Hidden radio button */}
+                    <input type="radio" className="form-radio sr-only" name="payment" value="online" checked={selectedPayment === 'online'} onChange={() => {}} />
+                    {/* Icon and text */}
+                    <span className="ml-2 flex items-center"><MdPayment className="mr-2 text-2xl" /> Online Payment</span>
+                </label>
+            </div>
+        </div>
                 {/* Complete Your Order Button */}
                 <div className='flex w-full'>
-                    <button className="bg-white w-full font-semibold text-black py-2 px-4 rounded-3xl hover:bg-gray-200">Complete Your Order</button>
+                    <button className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">Complete Your Order</button>
                 </div>
             </div>
         </div>
