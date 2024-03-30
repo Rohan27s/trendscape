@@ -3,45 +3,84 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaShippingFast, FaMoneyBillAlt, FaPlaneDeparture } from 'react-icons/fa';
 import { MdPayment } from "react-icons/md";
+import { useForm } from 'react-hook-form';
+import { object, string } from 'zod';
 
-
+const addressSchema = object({
+    name: string().min(2),
+    mobileNumber: string().min(10).max(10),
+    houseStreet: string().min(2),
+    cityTown: string().min(2),
+    state: string().min(2),
+    pincode: string().min(6).max(6),
+});
 
 const CheckoutPage = () => {
     // Static data for order total, subtotal, and discount
     const [selectedShipping, setSelectedShipping] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const cartItems = useSelector((state) => state.cart.items);
     const subtotal = useSelector((state) => state.cart.total);
     const discount = 100; // Example discount amount
     const orderTotal = subtotal - discount; // Example order total amount
     console.log(cartItems);
+
+    const onSubmit = (data) => {
+        const { name, mobileNumber, houseStreet, cityTown, state, pincode } = data;
+        const address = { name, mobileNumber, houseStreet, cityTown, state, pincode };
+
+        // Check if the payment method is selected
+        if (!selectedPayment) {
+            alert('Please select a payment method.');
+            return;
+        }
+
+        // Combine shipping details with form data
+        const shippingDetails = { ...address, selectedShipping, selectedPayment, cartItems, subtotal, discount, orderTotal };
+
+        // Place order logic
+        console.log('Shipping Details:', shippingDetails);
+        alert('Your order has been placed!');
+    };
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
+            <form onSubmit={handleSubmit(onSubmit)} className='flex justify-between w-full'>
             <div className="w-1/2 p-5 flex flex-col">
                 {/* Form for shipping address */}
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-3">Shipping Address</h2>
-                    <div className="flex flex-wrap ">
+                    <div className="flex flex-wrap mb-3 ">
                         <div className="w-full md:w-1/2 pr-2">
-                            <input type="text" placeholder="Name" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                            <input  {...register('name', { required: 'Name is required' })} type="text" placeholder="Name" className="w-full border border-gray-400 p-2 rounded-md" />
+
+                            {errors.name && <span className="text-red-500">{errors.name.message}</span>}
+
+
                         </div>
                         <div className="w-full md:w-1/2 pl-2">
-                            <input type="text" placeholder="Mobile Number" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                            <input type="text" {...register('mobileNumber', { required: 'Mobile number is required' })} placeholder="Mobile Number" className="w-full border border-gray-400 p-2 rounded-md " />
+                            {errors.mobileNumber && <span className="text-red-500">{errors.mobileNumber.message}</span>}
+
                         </div>
                     </div>
-                    <div>
-                        <input type="text" placeholder="House Number / Street Name" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                    <div className='mb-3'>
+                        <input type="text" {...register('houseStreet', { required: 'House/Street is required' })} placeholder="House Number / Street Name" className="w-full border border-gray-400 p-2 rounded-md" />
+                        {errors.houseStreet && <span className="text-red-500">{errors.houseStreet.message}</span>}
                     </div>
-                    <div>
-                        <input type="text" placeholder="City / Town" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                    <div className='mb-3'>
+                        <input type="text" {...register('cityTown', { required: 'City/Town is required' })} placeholder="City / Town" className="w-full border border-gray-400 p-2 rounded-md" />
+                        {errors.cityTown && <span className="text-red-500">{errors.cityTown.message}</span>}
                     </div>
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap mb-3">
                         <div className="w-full md:w-1/2 pr-2">
-                            <input type="text" placeholder="State" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                            <input type="text" {...register('state', { required: 'State is required' })} placeholder="State" className="w-full border border-gray-400 p-2 rounded-md" />
+                            {errors.state && <span className="text-red-500">{errors.state.message}</span>}
                         </div>
                         <div className="w-full md:w-1/2 pl-2">
-                            <input type="text" placeholder="Pincode" className="w-full border border-gray-400 p-2 rounded-md mb-3" />
+                            <input type="text" {...register('pincode', { required: 'Pincode is required' })} placeholder="Pincode" className="w-full border border-gray-400 p-2 rounded-md" />
+                            {errors.pincode && <span className="text-red-500">{errors.pincode.message}</span>}
                         </div>
                     </div>
                 </div>
@@ -145,9 +184,10 @@ const CheckoutPage = () => {
                 </div>
                 {/* Complete Your Order Button */}
                 <div className='flex w-full'>
-                    <button className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">Complete Your Order</button>
+                    <button type="submit" className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">Complete Your Order</button>
                 </div>
             </div>
+            </form>
         </div>
     );
 };
