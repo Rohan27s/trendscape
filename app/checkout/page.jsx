@@ -13,7 +13,7 @@ const CheckoutPage = () => {
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
-            <div className="w-1/2 p-5 flex flex-col">
+            <div className="w-[60%] p-5 flex flex-col">
                 {/* Form for shipping address */}
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-3">Shipping Address</h2>
@@ -57,7 +57,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* Right Side */}
-            <div className="w-1/2  p-6 bg-neutral-900 rounded-3xl text-white flex flex-col h-auto items-start justify-center">
+            <div className="w-[40%]  p-6 bg-neutral-900 rounded-3xl text-white flex flex-col h-auto items-start justify-center">
                 {/* Ordered Items */}
                 <h3 className='text-2xl mb-2'>Order Overview</h3>
                 <div className='w-full flex products-custom-scroll'>
