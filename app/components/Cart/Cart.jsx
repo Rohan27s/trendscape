@@ -36,6 +36,13 @@ const Cart = ({ onClose }) => {
         </div>
         <ProgressBar totalAmount={total} /> {/* Progress bar */}
         <div className="cart-items mt-4">
+          {cartItems.length === 0 ? (
+            <div className='flex w-full h-[65vh] justify-center items-center'>
+
+              <p className="text-center text-xl font-semibold">Your cart is empty</p>
+            </div>
+          ) :
+          <>
           <ul>
             {cartItems.map((item) => (
               <li key={item.id} className="flex flex-row items-center justify-between gap-2 mb-2">
@@ -55,8 +62,10 @@ const Cart = ({ onClose }) => {
               </li>
             ))}
           </ul>
+          </>
+          }
         </div>
-        <div className="cart-bottombar flex flex-col justify-end w-full px-4 py-4 gap-2">
+        {cartItems.length !== 0 && <div className="cart-bottombar flex flex-col justify-end w-full px-4 py-4 gap-2">
           <div className="w-full flex justify-between items-center">
             <input
               type="text"
@@ -68,7 +77,7 @@ const Cart = ({ onClose }) => {
           <button className="w-full py-2 text-lg flex justify-center items-center bg-black text-white">
             Checkout - Rs.{total}
           </button>
-        </div>
+        </div>}
       </div>
     </div>
   );

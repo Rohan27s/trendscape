@@ -10,7 +10,10 @@ import Footer from "./components/Footer/Footer/Footer";
 import Cart from "./components/Cart/Cart";
 import store from './Redux/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from './Redux/store';
 import AnnouncementBar from './components/AnnouncementBar/AnnouncementBar';
+import { BRAND_NAME } from './Data/constants';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,23 +32,27 @@ export default function RootLayout({ children }) {
 
   return (
     <Provider store={store}>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
       <html lang="en">
+        <head>
+          <title>{BRAND_NAME}</title>
+        </head>
         <body className={inter.className}>
-        <ToastContainer
-        position="top-center"
-        autoClose={3000} // Close the notification after 3 seconds
-        hideProgressBar={false} // Show the progress bar
-        newestOnTop={false} // Place newest notifications on top
-        closeOnClick // Close the notification when clicked
-        rtl={false} // Left-to-right layout
-        pauseOnFocusLoss // Pause the notification when focus is lost on the window
-        draggable // Allow dragging to dismiss the notification
-        pauseOnHover 
-        bodyStyle={{ 
-          padding: '8px',
-        }}
-      />
-          <AnnouncementBar/>
+          <ToastContainer
+            position="top-center"
+            autoClose={3000} // Close the notification after 3 seconds
+            hideProgressBar={false} // Show the progress bar
+            newestOnTop={false} // Place newest notifications on top
+            closeOnClick // Close the notification when clicked
+            rtl={false} // Left-to-right layout
+            pauseOnFocusLoss // Pause the notification when focus is lost on the window
+            draggable // Allow dragging to dismiss the notification
+            pauseOnHover
+            bodyStyle={{
+              padding: '8px',
+            }}
+          />
+          <AnnouncementBar />
           <Navbar openCart={openCart} />
           {isCartOpen && <Cart onClose={closeCart} />}
           <div className="mx-auto flex flex-col  relative min-h-[70vh]">
@@ -54,6 +61,7 @@ export default function RootLayout({ children }) {
           <Footer />
         </body>
       </html>
+      {/* </PersistGate> */}
     </Provider>
   );
 }
