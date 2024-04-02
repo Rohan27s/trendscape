@@ -18,13 +18,21 @@ const ImageSlider = ({ images }) => {
   };
 
   return (
-    <Slider {...settings} className='w-[80%] mx-auto'>
-      {images.map((item, index) => (
-        <div key={index} className='h-[75vh]'>
-          <img src={item} alt="Product" className="w-full h-full object-cover rounded-lg" />
+    <>
+      {images.length > 1 &&
+        <Slider {...settings} className='w-[80%] mx-auto'>
+          {images.map((item, index) => (
+            <div key={index} className='h-[75vh]'>
+              <img src={item} alt="Product" className="w-full h-full object-cover rounded-lg" />
+            </div>
+          ))}
+        </Slider>}
+      {(images.length === 1) &&
+        <div key={images[0]} className='h-[75vh] w-[80%] mx-auto'>
+          <img src={images[0]} alt="Product" className="w-full h-full object-cover rounded-lg" />
         </div>
-      ))}
-    </Slider>
+      }
+    </>
   );
 };
 

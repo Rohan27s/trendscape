@@ -47,7 +47,7 @@ const Cart = ({ onClose }) => {
             {cartItems.map((item) => (
               <li key={item.id} className="flex flex-row items-center justify-between gap-2 mb-2">
                 <span className="w-1/4 h-[80px] flex">
-                  <img src={`https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt="" className="w-full h-full object-cover rounded-xl" />
+                  <img src={item.images[0]} alt="" className="w-full h-full object-cover rounded-xl" />
                 </span>
                 <span className="flex h-full w-2/4 items-start flex-col">
                   <p>{item.name}</p>

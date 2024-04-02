@@ -126,7 +126,7 @@ const CheckoutPage = () => {
                             {cartItems?.map((item) => (
                                 <li key={item.id} className="w-[150px] flex flex-col items-center justify-between mb-2">
                                     <span className="w-[150px] h-[150px] mb-[2px] flex">
-                                        <img src={`https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt={item.name} className="w-full h-full object-cover rounded-xl" />
+                                        <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover rounded-xl" />
                                     </span>
                                     <span className="text-start mx-auto w-[98%] overflow-hidden">
                                         <p className="whitespace-nowrap overflow-hidden overflow-ellipsis">{item.name}</p>
