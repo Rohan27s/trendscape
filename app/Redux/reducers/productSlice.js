@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PRODUCTS } from '@/app/Data/constants';
+import axios from 'axios';
 
 const initialState = {
     product: null,
+    products: [],
     error: null,
-    status: 'idle', 
+    status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
 };
 
 const productSlice = createSlice({
     name: 'product',
     initialState,
     reducers: {
+        fetchProductStart(state) {
+            state.status = 'loading';
+        },
         fetchProductSuccess(state, action) {
             state.product = action.payload;
             state.error = null;
@@ -21,23 +25,46 @@ const productSlice = createSlice({
             state.error = action.payload;
             state.status = 'failed';
         },
+        fetchProductsStart(state) {
+            state.status = 'loading';
+        },
+        fetchProductsSuccess(state, action) {
+            state.products = action.payload;
+            state.error = null;
+            state.status = 'succeeded';
+        },
+        fetchProductsFailure(state, action) {
+            state.products = [];
+            state.error = action.payload;
+            state.status = 'failed';
+        },
     },
 });
 
-export const { fetchProductSuccess, fetchProductFailure } = productSlice.actions;
+export const { fetchProductStart, fetchProductSuccess, fetchProductFailure, fetchProductsStart, fetchProductsSuccess, fetchProductsFailure } = productSlice.actions;
 
 export const selectProduct = (state) => state.product.product;
+export const selectProducts = (state) => state.product.products;
+export const selectProductsStatus = (state) => state.product.status;
 
 export const fetchProduct = (productId) => async (dispatch) => {
     try {
-        const product = PRODUCTS?.find((product) => product.id === productId);
-        // console.log("products", PRODUCTS);
-        // console.log("single product", product);
-        dispatch(fetchProductSuccess(product));
+        dispatch(fetchProductStart());
+        const response = await axios.get(`https://trendscape-backend.vercel.app/api/products/${productId}`);
+        dispatch(fetchProductSuccess(response.data));
     } catch (error) {
         dispatch(fetchProductFailure(error.message));
     }
 };
 
+export const fetchProducts = () => async (dispatch) => {
+    try {
+        dispatch(fetchProductsStart());
+        const response = await axios.get('https://trendscape-backend.vercel.app/api/products/');
+        dispatch(fetchProductsSuccess(response.data));
+    } catch (error) {
+        dispatch(fetchProductsFailure(error.message));
+    }
+};
 
 export default productSlice.reducer;

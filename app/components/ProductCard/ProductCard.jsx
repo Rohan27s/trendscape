@@ -1,14 +1,14 @@
 import React from 'react';
 import StarRating from '../Utils/StarRating';
 import Link from 'next/link'
-const ProductCard = ({ name, brand, price, rating,id }) => {
+const ProductCard = ({ name, brand, price, rating,_id,images }) => {
     return (
-        <Link href={`/Product/${name.replace(/\s+/g, '-').toLowerCase()}?id=${id}`}>
+        <Link href={`/Product/${name.replace(/\s+/g, '-').toLowerCase()}?id=${_id}`}>
             <div className='w-[250px] h-[400px] cursor-pointer'>
                 {/* Product Image */}
                 <div className='bg-gray-300 rounded-2xl h-[250px] w-[250px]'>
                     <img
-                        src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src={images[0]}
                         alt=""
                         className='w-full h-full object-cover rounded-2xl'
                         loading='lazy'

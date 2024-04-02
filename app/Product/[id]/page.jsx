@@ -1,19 +1,17 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import ColorOptions from '@/app/components/ColorOptions/ColorOptions';
 import CustomerReview from '@/app/components/CustomerReview/CustomerReview';
-import QuantitySelector from '@/app/components/Utils/CartQuantitySelector';
 import { useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct, selectProduct } from '@/app/Redux/reducers/productSlice';
 import { addToCart } from '@/app/Redux/reducers/cartReducer';
 import ProductDetailsQuantitySelector from '@/app/components/Utils/ProductDetailsQuantitySelector';
 import ImageSlider from '@/app/components/Utils/ImageSlider';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from '@/app/components/Utils/Loading';
 
@@ -24,14 +22,13 @@ const ProductDetailsPage = () => {
   const searchParams = useSearchParams();
   const productId = searchParams.get('id');
   const [quantity, setQuantity] = useState(1);
-  // console.log("ID", productId);
   useEffect(() => {
     dispatch(fetchProduct(productId));
   }, [dispatch, productId]);
 
   useEffect(() => {
     if (product) {
-      setExpanded(false); // Reset expanded state when product changes
+      setExpanded(false);
     }
   }, [product]);
 
@@ -56,15 +53,13 @@ const ProductDetailsPage = () => {
       progress: undefined,
     });
   }
-  // console.log(product);
-  // console.log("Product is not null, rendering product details");
 
   return (
     <div className="container mx-auto mt-10  ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image Slider */}
         <div className="md:col-span-1 relative">
-          <ImageSlider />
+          <ImageSlider images={product?.images}/>
         </div>
 
         {/* Product Details */}
