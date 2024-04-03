@@ -64,7 +64,7 @@ const ProductSlider = () => {
             return (
                 <Slider {...settings} className=''>
                     {products?.slice(0, 10).map((product) => (
-                        <ProductCard key={product.id} {...product} />
+                        <ProductCard key={product._id} {...product} />
                     ))}
                 </Slider>
             );

@@ -26,9 +26,9 @@ const Navbar = ({ openCart }) => {
         </span>
       </div>
       <div className='flex flex-wrap font-semibold items-center justify-around list-none custom-border  py-3'>
-        {CATEGORIES?.map((item) => (
+        {CATEGORIES?.map((item,index) => (
           <>
-            <Link href={item.url} className='syne-font'>
+            <Link href={item.url} key={index} className='syne-font'>
               {item.name}
             </Link>
           </>

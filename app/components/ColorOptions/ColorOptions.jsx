@@ -7,7 +7,7 @@ const ColorOptions = ({colors}) => {
     <div className="relative inline-block w-full">
       <div className="absolute  w-full rounded-md bg-white ">
         <div className="bg-gray-100 w-auto p-1 rounded-lg">
-          {colors.map((color) => (
+          {colors?.map((color) => (
              <button
              key={color}
              onClick={() => setSelectedColor(color)}

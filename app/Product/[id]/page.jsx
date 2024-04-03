@@ -105,9 +105,9 @@ const ProductDetailsPage = () => {
          <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4">Description</h3>
             <p className="text-gray-700">
-              {expanded ? product.description : `${product.description.slice(0, 100)}`}
+              {expanded ? product.description : `${product.description?.slice(0, 100)}`}
             </p>
-            {product.description.length > 100 && (
+            {product.description?.length > 100 && (
               <button onClick={toggleExpanded} className="text-blue-500 hover:underline mt-2">
                 {expanded ? 'View Less' : 'View More'}
               </button>

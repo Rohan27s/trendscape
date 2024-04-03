@@ -8,10 +8,10 @@ const BestSeller = () => {
         <div className='my-3'>
             <div className='flex justify-between mb-3 items-center'>
                 <h2 className='text-4xl font-bold'>Best of the week</h2>
-                <Link href="#" className="view_more">
+                {/* <Link href="#" className="view_more">
                     View more
                     <MdOutlineArrowOutward />
-                </Link>
+                </Link> */}
             </div>
             <div className='flex flex-row gap-4'>
                 <div className='flex flex-wrap gap-3 w-1/2'>

@@ -6,6 +6,7 @@ import { MdPayment } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 import { object, string } from 'zod';
 import { useRouter } from 'next/navigation';
+import { createOrder } from '../Redux/reducers/orderSlice';
 const addressSchema = object({
     name: string().min(2),
     mobileNumber: string().min(10).max(10),
@@ -17,7 +18,7 @@ const addressSchema = object({
 
 const CheckoutPage = () => {
     const router = useRouter();
-
+    const dispatch = useDispatch();
     // Static data for order total, subtotal, and discount
     const [selectedShipping, setSelectedShipping] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
@@ -43,7 +44,7 @@ const CheckoutPage = () => {
 
         // Place order logic
         console.log('Shipping Details:', shippingDetails);
-
+        dispatch(createOrder(shippingDetails))
 
         router.push('/success');
         // alert('Your order has been placed!');

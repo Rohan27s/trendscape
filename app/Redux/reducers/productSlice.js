@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+const backendBaseUrl = process.env.NEXT_PUBLIC_APP_BACKEND_URL;
 const initialState = {
     product: null,
     products: [],
@@ -50,7 +50,7 @@ export const selectProductsStatus = (state) => state.product.status;
 export const fetchProduct = (productId) => async (dispatch) => {
     try {
         dispatch(fetchProductStart());
-        const response = await axios.get(`https://trendscape-backend.vercel.app/api/products/${productId}`);
+        const response = await axios.get(`${backendBaseUrl}/products/${productId}`);
         dispatch(fetchProductSuccess(response.data));
     } catch (error) {
         dispatch(fetchProductFailure(error.message));
@@ -60,7 +60,7 @@ export const fetchProduct = (productId) => async (dispatch) => {
 export const fetchProducts = () => async (dispatch) => {
     try {
         dispatch(fetchProductsStart());
-        const response = await axios.get('https://trendscape-backend.vercel.app/api/products/');
+        const response = await axios.get(`${backendBaseUrl}/products/`);
         dispatch(fetchProductsSuccess(response.data));
     } catch (error) {
         dispatch(fetchProductsFailure(error.message));

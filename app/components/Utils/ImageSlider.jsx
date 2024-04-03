@@ -13,13 +13,13 @@ const ImageSlider = ({ images }) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: images.length > 1 ? <NextArrow /> : null,
-    prevArrow: images.length > 1 ? <PrevArrow /> : null,
+    nextArrow: images?.length > 1 ? <NextArrow /> : null,
+    prevArrow: images?.length > 1 ? <PrevArrow /> : null,
   };
 
   return (
     <>
-      {images.length > 1 &&
+      {images?.length > 1 &&
         <Slider {...settings} className='w-[80%] mx-auto'>
           {images.map((item, index) => (
             <div key={index} className='h-[75vh]'>
@@ -27,7 +27,7 @@ const ImageSlider = ({ images }) => {
             </div>
           ))}
         </Slider>}
-      {(images.length === 1) &&
+      {(images?.length === 1) &&
         <div key={images[0]} className='h-[75vh] w-[80%] mx-auto'>
           <img src={images[0]} alt="Product" className="w-full h-full object-cover rounded-lg" />
         </div>

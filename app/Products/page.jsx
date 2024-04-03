@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ProductCard from '../components/ProductCard/ProductCard';
-import { PRODUCTS } from '../Data/constants';
+import { fetchProducts, selectProducts, selectProductsStatus } from '../Redux/reducers/productSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Page = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -10,10 +11,16 @@ const Page = () => {
     const [products, setProducts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
+    const dispatch = useDispatch();
+    const productsArray = useSelector(selectProducts);
+    const status = useSelector(selectProductsStatus);
 
     useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+    useEffect(() => {
         // Filter products based on search term and selected brands
-        let filteredProducts = PRODUCTS.filter(product =>
+        let filteredProducts = productsArray?.filter(product =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         if (selectedBrands.length > 0) {
@@ -41,12 +48,12 @@ const Page = () => {
         if (hasMore) {
             const sliceEnd = products.length + 30;
             setProducts(prevProducts => {
-                const additionalProducts = PRODUCTS.slice(prevProducts.length, sliceEnd);
+                const additionalProducts = productsArray?.slice(prevProducts.length, sliceEnd);
                 return [...prevProducts, ...additionalProducts];
             });
 
             // Update hasMore based on whether all products have been loaded
-            if (sliceEnd >= PRODUCTS.length) {
+            if (sliceEnd >= productsArray?.length) {
                 setHasMore(false);
             }
         }
@@ -72,7 +79,7 @@ const Page = () => {
         });
     };
 
-    const uniqueBrands = [...new Set(PRODUCTS.map(product => product.brand))];
+    const uniqueBrands = [...new Set(productsArray?.map(product => product.brand))];
 
     return (
         <div className='flex flex-row'>
