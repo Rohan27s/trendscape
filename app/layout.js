@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer/Footer";
 import Cart from "./components/Cart/Cart";
-import store from './Redux/store';
+import store  from './Redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './Redux/store';
