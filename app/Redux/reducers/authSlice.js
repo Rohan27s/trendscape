@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const initialState = {
   user: null,
@@ -19,6 +20,13 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.error = null;
       state.status = 'succeeded';
+      const router = useRouter();
+      const referrer = document.referrer;
+      if (referrer && referrer !== '') {
+        router.push(referrer);
+      } else {
+        router.push('/'); 
+      }
     },
     signUpFailure(state, action) {
       state.user = null;
@@ -33,6 +41,13 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.error = null;
       state.status = 'succeeded';
+      const router = useRouter();
+      const referrer = document.referrer;
+      if (referrer && referrer !== '') {
+        router.push(referrer);
+      } else {
+        router.push('/'); 
+      }
     },
     signInFailure(state, action) {
       state.user = null;

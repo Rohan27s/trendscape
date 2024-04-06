@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import ProductCard from '../components/ProductCard/ProductCard';
 import { fetchProducts, selectProducts, selectProductsStatus } from '../Redux/reducers/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,10 +15,7 @@ const Page = () => {
     const productsArray = useSelector(selectProducts);
     const status = useSelector(selectProductsStatus);
 
-    useEffect(() => {
-        dispatch(fetchProducts());
-    }, [dispatch]);
-    useEffect(() => {
+    const filteredProducts = useMemo(() => {
         // Filter products based on search term and selected brands
         let filteredProducts = productsArray?.filter(product =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -26,7 +23,10 @@ const Page = () => {
         if (selectedBrands.length > 0) {
             filteredProducts = filteredProducts.filter(product => selectedBrands.includes(product.brand));
         }
+        return filteredProducts;
+    }, [productsArray, searchTerm, selectedBrands]);
 
+    useEffect(() => {
         // Sort filtered products based on selected sorting option
         let sortedProducts = [...filteredProducts];
         if (sortBy === 'priceLowToHigh') {
@@ -41,7 +41,7 @@ const Page = () => {
 
         // Set the final products state
         setProducts(sortedProducts);
-    }, [searchTerm, sortBy, selectedBrands]);
+    }, [filteredProducts, sortBy]);
 
     useEffect(() => {
         // Load more products when hasMore changes
@@ -57,7 +57,7 @@ const Page = () => {
                 setHasMore(false);
             }
         }
-    }, [hasMore, products]);
+    }, [hasMore, products, productsArray]);
 
     const lastProductRef = useCallback(node => {
         if (observer.current) observer.current.disconnect();
@@ -81,27 +81,31 @@ const Page = () => {
 
     const uniqueBrands = [...new Set(productsArray?.map(product => product.brand))];
 
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+
     return (
         <div className='flex flex-row'>
             {/* Filter Sidebar */}
             <div className='w-1/5 sticky top-0 bg-gray-200 p-4 overflow-y-auto custom-scrollbar' style={{ maxHeight: 'calc(100vh)' }}>
-    <h2 className='text-lg font-semibold mb-4'>Filter By Brand</h2>
-    <ul>
-        {uniqueBrands.map(brand => (
-            <li key={brand} className='flex items-center mb-2'>
-                <input
-                    type='checkbox'
-                    id={brand}
-                    value={brand}
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() => handleBrandFilter(brand)}
-                    className='mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
-                />
-                <label htmlFor={brand} className='text-sm'>{brand}</label>
-            </li>
-        ))}
-    </ul>
-</div>
+                <h2 className='text-lg font-semibold mb-4'>Filter By Brand</h2>
+                <ul>
+                    {uniqueBrands.map(brand => (
+                        <li key={brand} className='flex items-center mb-2'>
+                            <input
+                                type='checkbox'
+                                id={brand}
+                                value={brand}
+                                checked={selectedBrands.includes(brand)}
+                                onChange={() => handleBrandFilter(brand)}
+                                className='mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+                            />
+                            <label htmlFor={brand} className='text-sm'>{brand}</label>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
 
             {/* All Products */}
