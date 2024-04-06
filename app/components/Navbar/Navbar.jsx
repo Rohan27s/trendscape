@@ -23,8 +23,8 @@ const Navbar = ({ openCart }) => {
           {cartItemCount > 0 && (
             <span className="bg-black text-white rounded-full px-2 py-1 absolute top-0 right-0 -mt-2 mr-2 text-xs">{cartItemCount}</span>
           )} 
-          <Link href={"/login"} className='mx-2 font-bold'>Login</Link>
         </span>
+          <Link href={"/login"} className='mx-2 font-bold'>Login</Link>
       </div>
       <div className='flex flex-wrap font-semibold items-center justify-around list-none custom-border  py-3'>
         {CATEGORIES?.map((item) => (
