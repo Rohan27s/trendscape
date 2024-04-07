@@ -31,13 +31,13 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  useEffect(() => {
-    if (authStatus === 'succeeded') {
-      toast.success('Login successful!');
-    } else if (authStatus === 'failed') {
-      toast.error('Login failed. Please try again.');
-    }
-  }, [authStatus]);
+  // useEffect(() => {
+  //   if (authStatus === 'succeeded') {
+  //     toast.success('Login successful!');
+  //   } else if (authStatus === 'failed') {
+  //     toast.error('Login failed. Please try again.');
+  //   }
+  // }, [authStatus]);
 
   
   const toggleSignIn = () => {

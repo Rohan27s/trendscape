@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const initialState = {
   user: null,
@@ -20,6 +21,7 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.error = null;
       state.status = 'succeeded';
+
       const router = useRouter();
       const referrer = document.referrer;
       if (referrer && referrer !== '') {
@@ -77,6 +79,7 @@ export const signUp = (userData) => async (dispatch) => {
   try {
     dispatch(signUpStart());
     const response = await axios.post(`${backendBaseUrl}/signup`, userData);
+
     dispatch(signUpSuccess(response.data));
   } catch (error) {
     dispatch(signUpFailure(error.message));
@@ -87,8 +90,12 @@ export const signIn = (userData) => async (dispatch) => {
   try {
     dispatch(signInStart());
     const response = await axios.post(`${backendBaseUrl}/signin`, userData);
+    // toast.success('Login successful!');
+
     dispatch(signInSuccess(response.data));
   } catch (error) {
+    // toast.error('Login error!');
+
     dispatch(signInFailure(error.message));
   }
 };
