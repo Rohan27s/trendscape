@@ -9,7 +9,7 @@ const OrderSuccessPage = () => {
           <FaCheckCircle />
         </div>
         <h1 className="text-3xl font-semibold text-center text-green-500 mb-4">Order Successful!</h1>
-        <p className="text-gray-700 mb-4 text-center">Thank you for your order.<br/> Your order with ID: <span className="font-semibold text-green-500">#TE1001</span> has been successfully placed.</p>
+        <p className="text-gray-700 mb-4 text-center">Thank you for your order.<br/> Your order  has been successfully placed.</p>
         <div className="text-center">
           <Link href={"/"} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Continue shopping</Link>
         </div>

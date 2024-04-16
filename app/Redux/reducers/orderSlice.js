@@ -36,7 +36,7 @@ export const selectOrderStatus = (state) => state.order.status;
 export const createOrder = (orderData) => async (dispatch) => {
     try {
         dispatch(createOrderStart());
-        const response = await axios.post(`${backendBaseUrl}/orders', orderData`, {
+        const response = await axios.post(`${backendBaseUrl}/orders`, orderData, {
             headers: {
                 'Content-Type': 'application/json'
             }

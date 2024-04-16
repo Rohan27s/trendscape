@@ -26,29 +26,34 @@ const CheckoutPage = () => {
     const cartItems = useSelector((state) => state.cart.items);
     const subtotal = useSelector((state) => state.cart.total);
     const discount = 100; // Example discount amount
-    const orderTotal = subtotal - discount; // Example order total amount
+    const cartTotal = subtotal - discount; // Example order total amount
     console.log(cartItems);
-
     const onSubmit = (data) => {
         const { name, mobileNumber, houseStreet, cityTown, state, pincode } = data;
-        const address = { name, mobileNumber, houseStreet, cityTown, state, pincode };
-        // const router = useRouter();
-        // Check if the payment method is selected
-        if (!selectedPayment) {
-            alert('Please select a payment method.');
-            return;
-        }
-
+      
         // Combine shipping details with form data
-        const shippingDetails = { ...address, selectedShipping, selectedPayment, cartItems, subtotal, discount, orderTotal };
-
-        // Place order logic
-        console.log('Shipping Details:', shippingDetails);
-        dispatch(createOrder(shippingDetails))
-
+        const shippingDetails = { name, mobileNumber, houseStreet, cityTown, state, pincode };
+      
+        // Structure the data according to the schema
+        const orderData = {
+          shippingDetails,
+          shippingMethod: selectedShipping,
+          paymentMethod: selectedPayment,
+          cartItems: cartItems.map(item => ({
+            id: item.id, // Adjust if necessary, based on your schema
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            imageUrl: item.images, // Adjust if necessary, based on your schema
+          })),
+          cartTotal,
+        };
+      
+        // Dispatch the createOrder action with the structured data
+        dispatch(createOrder(orderData));
         router.push('/success');
-        // alert('Your order has been placed!');
-    };
+      };
+      
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
@@ -154,7 +159,7 @@ const CheckoutPage = () => {
                         <hr className="my-2" />
                         <div className="flex justify-between">
                             <p className="text-lg font-semibold">Total:</p>
-                            <p className="text-lg font-semibold">Rs. {orderTotal}</p>
+                            <p className="text-lg font-semibold">Rs. {cartTotal}</p>
                         </div>
                     </div>
 
