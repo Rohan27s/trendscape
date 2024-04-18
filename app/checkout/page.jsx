@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { object, string } from 'zod';
 import { useRouter } from 'next/navigation';
 import { createOrder } from '../Redux/reducers/orderSlice';
+
 const addressSchema = object({
     name: string().min(2),
     mobileNumber: string().min(10).max(10),
@@ -19,41 +20,85 @@ const addressSchema = object({
 const CheckoutPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-    // Static data for order total, subtotal, and discount
     const [selectedShipping, setSelectedShipping] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const cartItems = useSelector((state) => state.cart.items);
     const subtotal = useSelector((state) => state.cart.total);
-    const discount = 100; // Example discount amount
-    const cartTotal = subtotal - discount; // Example order total amount
+    const discount = 100;
+    const cartTotal = subtotal - discount;
     console.log(cartItems);
-    const onSubmit = (data) => {
+
+    const onSubmit = async (data) => {
         const { name, mobileNumber, houseStreet, cityTown, state, pincode } = data;
-      
-        // Combine shipping details with form data
         const shippingDetails = { name, mobileNumber, houseStreet, cityTown, state, pincode };
-      
-        // Structure the data according to the schema
         const orderData = {
           shippingDetails,
           shippingMethod: selectedShipping,
           paymentMethod: selectedPayment,
           cartItems: cartItems.map(item => ({
-            id: item.id, // Adjust if necessary, based on your schema
+            id: item.id,
             name: item.name,
             price: item.price,
             quantity: item.quantity,
-            imageUrl: item.images, // Adjust if necessary, based on your schema
+            imageUrl: item.images,
           })),
           cartTotal,
         };
-      
+
         // Dispatch the createOrder action with the structured data
-        dispatch(createOrder(orderData));
-        router.push('/success');
-      };
-      
+        const orderResponse = await dispatch(createOrder(orderData));
+        
+        // If the payment method is online, open Razorpay checkout
+        if (selectedPayment === 'online') {
+            const orderId = 'TD6565';
+            handleRazorpayCheckout(orderId);
+        } else {
+            router.push('/success');
+        }
+    };
+
+    // Function to open Razorpay checkout
+    const handleRazorpayCheckout = async (orderId) => {
+        try {
+            const response = await axios.post('https://trendscape-backend.vercel.app/api/payment/create-order', {
+                amount: cartTotal * 100, // Amount in paisa
+                currency: 'INR', // Currency
+                receipt: orderId, // Unique order ID
+                notes: 'Order payment', // Additional notes
+            });
+    
+            const data = response.data;
+    
+            const options = {
+                key: process.env.NEXT_PUBLIC_APP_RAZORPAY_API_KEY, // Replace with your Razorpay key ID
+                amount: data.amount,
+                currency: data.currency,
+                order_id: data.orderId,
+                name: 'Trendscape',
+                description: 'Order Payment',
+                handler: function (response) {
+                    // Redirect or perform any action after successful payment
+                    console.log(response);
+                    router.push('/success');
+                },
+                prefill: {
+                    name: 'User Name',
+                    email: 'user@example.com',
+                    contact: '9999999999',
+                },
+                theme: {
+                    color: '#3399cc',
+                },
+            };
+    
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error
+        }
+    };
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
             {/* Left Side */}
