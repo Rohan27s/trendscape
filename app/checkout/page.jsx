@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { object, string } from 'zod';
 import { useRouter } from 'next/navigation';
 import { createOrder } from '../Redux/reducers/orderSlice';
+import Razorpay from '../components/Razorpay/Razorpay';
 
 const addressSchema = object({
     name: string().min(2),
@@ -25,79 +26,106 @@ const CheckoutPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const cartItems = useSelector((state) => state.cart.items);
     const subtotal = useSelector((state) => state.cart.total);
-    const discount = 100;
+    const discount = 0;
     const cartTotal = subtotal - discount;
     console.log(cartItems);
+    const initializeRazorpay = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = "https://checkout.razorpay.com/v1/checkout.js";
 
-    const onSubmit = async (data) => {
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+
+            document.body.appendChild(script);
+        });
+    };
+
+    const handlePayment = async (total) => {
+        const res = await initializeRazorpay();
+    
+        if (!res) {
+            alert("Razorpay SDK Failed to load");
+            return;
+        }
+    
+        // Make API call to the serverless API
+        const data = await fetch("https://trendscape-backend.vercel.app/api/payment/checkout", { method: "POST" }).then((t) =>
+            t.json()
+        );
+        console.log(data);
+        var options = {
+            key: process.env.NEXT_PUBLIC_APP_RAZORPAY_API_KEY, // Enter the Key ID generated from the Dashboard
+            name: "Trendscape Pvt Ltd",
+            currency: data.currency,
+            amount: total * 100,
+            order_id: data.id,
+            description: "This is a test order for Trendscape",
+            image: "https://res.cloudinary.com/dg5vigi6m/image/upload/v1713510417/aa1ykjgnclyikigukki7.png",
+            handler: async function (response) {
+                const body = {
+                    ...response,
+                };
+                const validate = await fetch("https://trendscape-backend.vercel.app/api/payment/paymentVerification", {
+                    method: "POST", body: JSON.stringify(body),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+    
+                const jsonResponse = await validate.json();
+                console.log(jsonResponse);
+    
+                if (jsonResponse.msg === "success") {
+                    console.log('Redirecting to success page...');
+                    router.push('/success');
+                } else {
+                    console.log('Validation failed.');
+                    // Handle validation failure here
+                }
+            },
+            prefill: {
+                name: "Rohan",
+                email: "rohan@trendscape.com",
+                contact: "9999999999",
+            },
+        };
+    
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    }
+    
+    const onSubmit = async (data,payment) => {
+        // if(payment===true)
         const { name, mobileNumber, houseStreet, cityTown, state, pincode } = data;
         const shippingDetails = { name, mobileNumber, houseStreet, cityTown, state, pincode };
         const orderData = {
-          shippingDetails,
-          shippingMethod: selectedShipping,
-          paymentMethod: selectedPayment,
-          cartItems: cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            imageUrl: item.images,
-          })),
-          cartTotal,
+            shippingDetails,
+            shippingMethod: selectedShipping,
+            paymentMethod: selectedPayment,
+            cartItems: cartItems.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                imageUrl: item.images,
+            })),
+            cartTotal,
         };
 
         // Dispatch the createOrder action with the structured data
         const orderResponse = await dispatch(createOrder(orderData));
-        
-        // If the payment method is online, open Razorpay checkout
-        if (selectedPayment === 'online') {
-            const orderId = 'TD6565';
-            handleRazorpayCheckout(orderId);
-        } else {
+        if (orderData.paymentMethod === 'online') {
+            handlePayment(orderData.cartTotal);
+        }
+        else {
             router.push('/success');
         }
-    };
 
-    // Function to open Razorpay checkout
-    const handleRazorpayCheckout = async (orderId) => {
-        try {
-            const response = await axios.post('https://trendscape-backend.vercel.app/api/payment/create-order', {
-                amount: cartTotal * 100, // Amount in paisa
-                currency: 'INR', // Currency
-                receipt: orderId, // Unique order ID
-                notes: 'Order payment', // Additional notes
-            });
-    
-            const data = response.data;
-    
-            const options = {
-                key: process.env.NEXT_PUBLIC_APP_RAZORPAY_API_KEY, // Replace with your Razorpay key ID
-                amount: data.amount,
-                currency: data.currency,
-                order_id: data.orderId,
-                name: 'Trendscape',
-                description: 'Order Payment',
-                handler: function (response) {
-                    // Redirect or perform any action after successful payment
-                    console.log(response);
-                    router.push('/success');
-                },
-                prefill: {
-                    name: 'User Name',
-                    email: 'user@example.com',
-                    contact: '9999999999',
-                },
-                theme: {
-                    color: '#3399cc',
-                },
-            };
-    
-            const rzp1 = new Razorpay(options);
-            rzp1.open();
-        } catch (error) {
-            console.error('Error:', error);
-            // Handle error
-        }
     };
     return (
         <div className="flex justify-center mt-8 w-[90%] mx-auto">
