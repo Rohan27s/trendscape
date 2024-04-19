@@ -21,6 +21,7 @@ const addressSchema = object({
 const CheckoutPage = () => {
     const router = useRouter();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const [selectedShipping, setSelectedShipping] = useState(null);
     const [selectedPayment, setSelectedPayment] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -46,10 +47,12 @@ const CheckoutPage = () => {
     };
 
     const handlePayment = async (total) => {
+        setLoading(true)
         const res = await initializeRazorpay();
     
         if (!res) {
             alert("Razorpay SDK Failed to load");
+            setLoading(false);
             return;
         }
     
@@ -82,8 +85,10 @@ const CheckoutPage = () => {
     
                 if (jsonResponse.msg === "success") {
                     console.log('Redirecting to success page...');
+                    setLoading(false);
                     router.push('/success');
                 } else {
+                    setLoading(false);
                     console.log('Validation failed.');
                     // Handle validation failure here
                 }
@@ -268,7 +273,7 @@ const CheckoutPage = () => {
                     </div>
                     {/* Complete Your Order Button */}
                     <div className='flex w-full'>
-                        <button type="submit" className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">Complete Your Order</button>
+                        <button type="submit" disabled={loading} className="bg-white w-full font-semibold text-black py-2 px-4 rounded-xl  hover:font-bold">{loading?'Loading...':'Complete Your Order'}</button>
                     </div>
                 </div>
             </form>
