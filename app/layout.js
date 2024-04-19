@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer/Footer";
 import Cart from "./components/Cart/Cart";
-import store  from './Redux/store';
+import {store}  from './Redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './Redux/store';
@@ -29,15 +29,16 @@ export default function RootLayout({ children }) {
     document.body.style.overflow = '';
     setIsCartOpen(false);
   };
-
+console.log(store,'store')
+console.log(persistor,'stoe')
   return (
-    <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
       <html lang="en">
         <head>
           <title>{BRAND_NAME}</title>
         </head>
         <body className={inter.className}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
           <ToastContainer
             position="top-center"
             autoClose={3000} // Close the notification after 3 seconds
@@ -59,9 +60,9 @@ export default function RootLayout({ children }) {
             {children}
           </div>
           <Footer />
+      </PersistGate>
+    </Provider>
         </body>
       </html>
-      {/* </PersistGate> */}
-    </Provider>
   );
 }
