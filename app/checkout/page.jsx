@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { object, string } from 'zod';
 import { useRouter } from 'next/navigation';
 import { createOrder } from '../Redux/reducers/orderSlice';
-import Razorpay from '../components/Razorpay/Razorpay';
 
 const addressSchema = object({
     name: string().min(2),
