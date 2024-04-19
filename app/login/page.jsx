@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthStatus, signIn, signUp } from '../Redux/reducers/authSlice';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const signInSchema = z.object({
   email: z.string().email('Invalid email format').min(1, 'Email is required'),
@@ -20,6 +21,7 @@ const signUpSchema = z.object({
 });
 
 const LoginPage = () => {
+  const router = useRouter()
   const dispatch = useDispatch();
   const authStatus = useSelector(selectAuthStatus);
 
@@ -31,44 +33,46 @@ const LoginPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
-  // useEffect(() => {
-  //   if (authStatus === 'succeeded') {
-  //     toast.success('Login successful!');
-  //   } else if (authStatus === 'failed') {
-  //     toast.error('Login failed. Please try again.');
-  //   }
-  // }, [authStatus]);
-
-  
   const toggleSignIn = () => {
     setIsSignIn(!isSignIn);
-    setErrors({}); // Reset errors when toggling between sign-in and sign-up
+    setErrors({});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("hey");
     const formData = { username, fullName, email, password, confirmPassword };
     let validationResult;
     if (isSignIn) {
       validationResult = signInSchema.safeParse(formData);
       if (validationResult.success) {
-        // Dispatch sign-in action
-        dispatch(signIn({ email, password }));
+        try {
+          dispatch(signIn({ email, password }));
+          console.log(authStatus);
+
+        }
+        catch {
+          toast.error("Login Failed")
+        }
       } else {
         setErrors(validationResult.error.errors);
       }
     } else {
       validationResult = signUpSchema.safeParse(formData);
       if (validationResult.success) {
-        // Dispatch sign-up action
         dispatch(signUp(formData));
       } else {
-        console.log("error");
         setErrors(validationResult.error.errors);
       }
     }
   };
+  useEffect(() => {
+    if (authStatus === 'succeeded') {
+
+      toast.success("Logged in Successfully!")
+      router.push('/')
+    }
+  }, [authStatus])
+
 
   return (
     <div className="min-h-[75vh] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

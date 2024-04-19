@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 const initialState = {
@@ -21,14 +20,6 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.error = null;
       state.status = 'succeeded';
-
-      const router = useRouter();
-      const referrer = document.referrer;
-      if (referrer && referrer !== '') {
-        router.push(referrer);
-      } else {
-        router.push('/'); 
-      }
     },
     signUpFailure(state, action) {
       state.user = null;
@@ -39,22 +30,21 @@ const authSlice = createSlice({
       state.status = 'loading';
     },
     signInSuccess(state, action) {
-      state.user = action.payload.user;
+      state.user = action.payload.username;
       state.token = action.payload.token;
       state.error = null;
       state.status = 'succeeded';
-      const router = useRouter();
-      const referrer = document.referrer;
-      if (referrer && referrer !== '') {
-        router.push(referrer);
-      } else {
-        router.push('/'); 
-      }
     },
     signInFailure(state, action) {
       state.user = null;
       state.error = action.payload;
       state.status = 'failed';
+      toast.error("Invalid Credentials!")
+    },
+    signOut(state) {
+      state.user = null;
+      state.token = null;
+      state.status = 'idle';
     },
   },
 });
@@ -66,6 +56,7 @@ export const {
   signInStart,
   signInSuccess,
   signInFailure,
+  signOut, // Add signOut action
 } = authSlice.actions;
 
 export const selectUser = (state) => state.auth.user;
@@ -74,12 +65,10 @@ export const selectAuthStatus = (state) => state.auth.status;
 
 const backendBaseUrl = process.env.NEXT_PUBLIC_APP_BACKEND_URL;
 
-
 export const signUp = (userData) => async (dispatch) => {
   try {
     dispatch(signUpStart());
     const response = await axios.post(`${backendBaseUrl}/signup`, userData);
-
     dispatch(signUpSuccess(response.data));
   } catch (error) {
     dispatch(signUpFailure(error.message));
@@ -90,12 +79,8 @@ export const signIn = (userData) => async (dispatch) => {
   try {
     dispatch(signInStart());
     const response = await axios.post(`${backendBaseUrl}/signin`, userData);
-    // toast.success('Login successful!');
-
     dispatch(signInSuccess(response.data));
   } catch (error) {
-    // toast.error('Login error!');
-
     dispatch(signInFailure(error.message));
   }
 };

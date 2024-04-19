@@ -30,6 +30,7 @@ const CheckoutPage = () => {
     const cartTotal = subtotal - discount;
     console.log(cartItems);
     const initializeRazorpay = () => {
+        
         return new Promise((resolve) => {
             const script = document.createElement("script");
             script.src = "https://checkout.razorpay.com/v1/checkout.js";
